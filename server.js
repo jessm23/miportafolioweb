@@ -14,7 +14,8 @@ const app = express();
 const PORT = 3000;
 
 // 🔹 Configuración GitHub
-const token = fs.readFileSync(path.join(__dirname, "token.txt"), "utf8").trim();
+// Ahora
+const token = process.env.mitoken;
 const owner = "jessm23";
 const repo = "portafolio";
 const branch = "main";
