@@ -3,67 +3,397 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mis Proyectos</title>
+  <title>Proyectos - Adherly Dev</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/style1.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .preview-img {
+    :root {
+      --primary: #2c3e50;
+      --secondary: #34495e;
+      --accent: #3498db;
+      --accent-light: #5dade2;
+      --light: #ecf0f1;
+      --dark: #2c3e50;
+      --text-dark: #2c3e50;
+      --text-light: #7f8c8d;
+      --gradient-primary: linear-gradient(135deg, #3498db, #2c3e50);
+      --gradient-secondary: linear-gradient(135deg, #5dade2, #3498db);
+      --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--light);
+      overflow-x: hidden;
+      background: linear-gradient(-45deg, #1a2a3a, #2c3e50, #1a2a3a, #2c3e50);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Canvas animation background */
+    #canvas-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 0.5rem;
-      margin-bottom: 0.5rem;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.3;
     }
-    .preview-icon {
-      font-size: 4rem;
-      color: #0d6efd;
-      display: block;
+
+    /* NAVBAR PROFESIONAL */
+    .navbar {
+      background: rgba(44, 62, 80, 0.95) !important;
+      backdrop-filter: blur(10px);
+      padding: 0.8rem 0;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s ease;
+    }
+
+    .navbar-brand {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--light) !important;
+    }
+
+    .navbar-brand i {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-right: 0.5rem;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      margin: 0 0.5rem;
+      position: relative;
+      color: var(--light) !important;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* HERO SECTION MEJORADA */
+    .hero {
+      position: relative;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 40vh;
+      padding-top: 80px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%233498db" fill-opacity="0.1" d="M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom/100% 15%;
+      z-index: -1;
+    }
+
+    .typing-text {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      margin: 0 0 1.5rem;
+      position: relative;
+      display: inline-block;
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* CONTENEDOR DE PROYECTOS */
+    .projects-container {
+      padding: 3rem 0;
+      background: rgba(44, 62, 80, 0.7);
+      backdrop-filter: blur(10px);
+      min-height: 60vh;
+    }
+
+    .section-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient-primary);
+      border-radius: 2px;
+    }
+
+    /* Tarjetas de proyectos */
+    .project-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Icono del proyecto */
+    .project-icon {
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-icon i {
+      font-size: 3.5rem;
+      margin-bottom: 0.5rem;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+      z-index: 2;
+    }
+
+    .project-icon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--gradient-secondary);
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    .project-icon::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0)
+      );
+      transform: rotate(30deg);
+      z-index: 1;
+    }
+
+    .project-content {
+      padding: 1.5rem;
+    }
+
+    .project-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      color: var(--light);
       margin-bottom: 0.5rem;
     }
-    /* TARJETAS */
-.card {
-  border-radius: 1rem;
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
-  cursor: pointer;
-  background: #fff;
-}
 
-.card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  background: #e6f0ff; /* azul muy suave */
-}
+    .project-category {
+      display: inline-block;
+      background: var(--gradient-primary);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      margin-bottom: 1rem;
+    }
 
-/* BOTONES CENTRADOS */
-.card-buttons {
-  display: flex;
-  justify-content: center; /* centra los botones */
-  gap: 0.5rem; /* espacio entre botones */
-  flex-wrap: wrap;
-  margin-top: 1rem;
-}
+    .project-description {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
 
-.card-buttons .btn {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+    .project-tags {
+      margin-bottom: 1.5rem;
+    }
 
-.card-buttons .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
+    .project-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--light);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
 
+    .project-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .btn-action {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      border-radius: 5px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .btn-view {
+      background: rgba(52, 152, 219, 0.2);
+      color: var(--accent-light);
+      border: 1px solid rgba(52, 152, 219, 0.3);
+    }
+
+    .btn-view:hover {
+      background: rgba(52, 152, 219, 0.3);
+    }
+
+    .btn-download {
+      background: rgba(46, 204, 113, 0.2);
+      color: #2ecc71;
+      border: 1px solid rgba(46, 204, 113, 0.3);
+    }
+
+    .btn-download:hover {
+      background: rgba(46, 204, 113, 0.3);
+    }
+
+    .btn-edit {
+      background: rgba(241, 196, 15, 0.2);
+      color: #f1c40f;
+      border: 1px solid rgba(241, 196, 15, 0.3);
+    }
+
+    .btn-edit:hover {
+      background: rgba(241, 196, 15, 0.3);
+    }
+
+    .btn-delete {
+      background: rgba(231, 76, 60, 0.2);
+      color: #e74c3c;
+      border: 1px solid rgba(231, 76, 60, 0.3);
+    }
+
+    .btn-delete:hover {
+      background: rgba(231, 76, 60, 0.3);
+    }
+
+    .no-projects {
+      text-align: center;
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Modal de edición */
+    .modal-content {
+      background: rgba(44, 62, 80, 0.95);
+      backdrop-filter: blur(10px);
+      color: var(--light);
+      border: none;
+      border-radius: 15px;
+    }
+
+    .modal-header {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 30vh;
+      }
+      
+      .typing-text {
+        font-size: 2rem;
+      }
+      
+      .project-actions {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
-<body class="bg-dark text-light">
+<body>
+
+  <!-- Canvas Background Animation -->
+  <canvas id="canvas-bg"></canvas>
 
   <!-- HEADER -->
   <header class="navbar navbar-expand-lg navbar-dark bg-dark shadow fixed-top">
     <div class="container">
-      <a class="navbar-brand fw-bold text-info" href="index.html">
+      <a class="navbar-brand fw-bold" href="index.html">
         <i class="bi bi-code-slash"></i> Adherly Dev
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
@@ -75,217 +405,386 @@
         <ul class="navbar-nav">
           <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
           <li class="nav-item"><a class="nav-link active" href="projects.html">Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+          <li class="nav-item"><a class="nav-link" href="admin.html">Admin</a></li>
+          <li class="nav-item"><a class="nav-link" href="contactos.html">Contactos</a></li>
         </ul>
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero text-center d-flex flex-column justify-content-center align-items-center vh-100 bg-dark text-light">
-    <div>
-      <h1 class="typing-text display-3 fw-bold">
-        🚀 Mis <span class="text-info">Proyectos</span>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="typing-text display-4 fw-bold">
+        Nuestros <span>Proyectos</span>
       </h1>
-      <p class="lead mt-3">Explora, descarga y visualiza lo que he desarrollado.</p>
-      <a href="#subirProyecto" class="btn btn-info btn-lg mt-4 rounded-pill">
-        <i class="bi bi-upload"></i> Subir Proyecto
-      </a>
+      <p class="hero-lead">
+        Descubre nuestro trabajo y portfolio de desarrollo.
+      </p>
     </div>
   </section>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="container py-5">
-
-    <!-- Formulario -->
-    <div id="subirProyecto" class="card shadow-lg border-0 rounded-4 mb-5 bg-light text-dark">
-      <div class="card-body p-4">
-        <h4 class="mb-4 text-primary">📤 Subir un nuevo proyecto</h4>
-        <form id="uploadForm">
-          <div class="mb-3">
-            <label class="form-label">Título del Proyecto</label>
-            <input type="text" name="titulo" class="form-control form-control-sm" required>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Descripción</label>
-            <textarea name="descripcion" class="form-control form-control-sm" rows="2" required></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Archivo (ZIP, PDF, Imagen, etc.)</label>
-            <input type="file" name="archivo" class="form-control form-control-sm" required>
-          </div>
-          <button type="submit" class="btn btn-primary btn-sm w-100">
-            <i class="bi bi-upload"></i> Subir Proyecto
-          </button>
-          <div id="mensajeUpload" class="mt-3"></div>
-        </form>
+  <!-- CONTENEDOR DE PROYECTOS -->
+  <section class="projects-container">
+    <div class="container">
+      <h2 class="section-title">Portfolio de Trabajos</h2>
+      
+      <div id="projects-grid" class="row g-4">
+        <!-- Los proyectos se cargarán aquí dinámicamente -->
       </div>
     </div>
+  </section>
 
-    <!-- Listado de proyectos -->
-    <h3 class="mb-4 fw-bold">📂 Proyectos Disponibles</h3>
-    <div id="proyectosLista" class="row g-4"></div>
-  </main>
+  <!-- Modal de edición -->
+  <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar Proyecto/Tarea</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="edit-form">
+            <input type="hidden" id="edit-id">
+            <div class="mb-3">
+              <label for="edit-title" class="form-label">Título</label>
+              <input type="text" class="form-control" id="edit-title" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit-category" class="form-label">Categoría</label>
+              <select class="form-control" id="edit-category" required>
+                <option value="proyecto">Proyecto</option>
+                <option value="tareas">Tareas</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="edit-description" class="form-label">Descripción</label>
+              <textarea class="form-control" id="edit-description" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="edit-file" class="form-label">URL del archivo o enlace</label>
+              <input type="url" class="form-control" id="edit-file">
+            </div>
+            <div class="mb-3">
+              <label for="edit-date" class="form-label">Fecha</label>
+              <input type="date" class="form-control" id="edit-date" required>
+            </div>
+            <div class="mb-3">
+              <label for="edit-tags" class="form-label">Etiquetas (separadas por comas)</label>
+              <input type="text" class="form-control" id="edit-tags">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" id="save-edit-btn">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- FOOTER -->
-  <footer class="bg-dark text-center text-light py-4 mt-5 border-top">
+  <footer class="text-center">
     <div class="container">
       <p class="mb-2">© 2025 Adherly Dev | Todos los derechos reservados</p>
-      <div>
-        <a href="#" class="text-info me-3"><i class="bi bi-github fs-4"></i></a>
-        <a href="#" class="text-info me-3"><i class="bi bi-linkedin fs-4"></i></a>
-        <a href="#" class="text-info"><i class="bi bi-envelope fs-4"></i></a>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="#" class="text-light"><i class="bi bi-github fs-4"></i></a>
+        <a href="#" class="text-light"><i class="bi bi-linkedin fs-4"></i></a>
+        <a href="#" class="text-light"><i class="bi bi-envelope-fill fs-4"></i></a>
       </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+  
   <script>
-    const uploadForm = document.getElementById("uploadForm");
-    const proyectosLista = document.getElementById("proyectosLista");
-    const mensajeUpload = document.getElementById("mensajeUpload");
-
-    // 🔹 Obtener y mostrar proyectos
-    async function cargarProyectos() {
-      try {
-        const res = await fetch("http://localhost:3000/proyectos");
-        if (!res.ok) throw new Error("Error al cargar proyectos");
-        const proyectos = await res.json();
-        renderizarProyectos(proyectos);
-      } catch (err) {
-        console.error(err);
-        proyectosLista.innerHTML = `<p class="text-danger">Error al cargar los proyectos.</p>`;
+    // Canvas background animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const canvas = document.getElementById('canvas-bg');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas size
+      function setCanvasSize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
       }
-    }
-
- function renderizarProyectos(proyectos) {
-  proyectosLista.innerHTML = "";
-  if (proyectos.length === 0) {
-    proyectosLista.innerHTML = `<p class="text-muted">No hay proyectos disponibles todavía.</p>`;
-    return;
-  }
-
-  proyectos.forEach((proyecto) => {
-    const col = document.createElement("div");
-    col.className = "col-md-4";
-
-    // Detectar tipo de archivo para previsualización
-    let previewHTML = "";
-    const ext = proyecto.archivoNombre.split('.').pop().toLowerCase();
-
-    if(["png","jpg","jpeg","gif","webp"].includes(ext)){
-      previewHTML = `<img src="http://localhost:3000${proyecto.archivoURL}" class="preview-img">`;
-    } else if(ext === "pdf"){
-      previewHTML = `<i class="bi bi-file-earmark-pdf preview-icon"></i>`;
-    } else {
-      previewHTML = `<i class="bi bi-file-earmark-text preview-icon"></i>`;
-    }
-
-    col.innerHTML = `
-      <div class="card shadow-lg border-0 rounded-4 h-100 bg-light text-dark">
-        <div class="card-body d-flex flex-column">
-          ${previewHTML}
-          <h5 class="card-title fw-bold text-primary" id="titulo-${proyecto.id}">${proyecto.titulo}</h5>
-          <p class="card-text" id="descripcion-${proyecto.id}">${proyecto.descripcion}</p>
-          <small class="text-muted">📅 ${proyecto.fecha}</small>
-
-          <div class="card-buttons mt-auto">
-            <a href="http://localhost:3000${proyecto.archivoURL}" target="_blank" class="btn btn-success btn-sm">
-              <i class="bi bi-eye"></i> Ver
-            </a>
-            <button class="btn btn-warning btn-sm" onclick="editarProyectoTarjeta(${proyecto.id})">
-              <i class="bi bi-pencil"></i> Editar
-            </button>
-            <button class="btn btn-danger btn-sm" onclick="eliminarProyecto(${proyecto.id})">
-              <i class="bi bi-trash"></i> Eliminar
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-    proyectosLista.appendChild(col);
-  });
-}
-
-    // 🔹 Descargar automáticamente
-    function descargarProyecto(url, nombre) {
-      const link = document.createElement("a");
-      link.href = `http://localhost:3000${url}`;
-      link.download = nombre;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    // 🔹 Editar directamente en la tarjeta
-    function editarProyectoTarjeta(id) {
-      const tituloEl = document.getElementById(`titulo-${id}`);
-      const descripcionEl = document.getElementById(`descripcion-${id}`);
-
-      const tituloActual = tituloEl.textContent;
-      const descripcionActual = descripcionEl.textContent;
-
-      tituloEl.innerHTML = `<input type="text" class="form-control form-control-sm mb-2" value="${tituloActual}" id="input-titulo-${id}">`;
-      descripcionEl.innerHTML = `<textarea class="form-control form-control-sm" rows="2" id="input-descripcion-${id}">${descripcionActual}</textarea>`;
-
-      const botonEditar = tituloEl.parentElement.querySelector(".btn-warning");
-      botonEditar.innerHTML = `<i class="bi bi-check-lg"></i> Guardar`;
-      botonEditar.classList.remove("btn-warning");
-      botonEditar.classList.add("btn-success");
-      botonEditar.onclick = async () => {
-        const nuevoTitulo = document.getElementById(`input-titulo-${id}`).value.trim();
-        const nuevaDescripcion = document.getElementById(`input-descripcion-${id}`).value.trim();
-        if (!nuevoTitulo || !nuevaDescripcion) return alert("Debe completar ambos campos");
-
-        await fetch(`http://localhost:3000/proyectos/${id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ titulo: nuevoTitulo, descripcion: nuevaDescripcion })
-        });
-
-        cargarProyectos();
-      };
-    }
-
-    // 🔹 Subir proyecto
-    uploadForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      mensajeUpload.textContent = "";
-      const formData = new FormData(uploadForm);
-
-      try {
-        const res = await fetch("http://localhost:3000/upload", {
-          method: "POST",
-          body: formData
-        });
-
-        if (!res.ok) throw new Error("Error subiendo proyecto");
-        const proyecto = await res.json();
-
-        mensajeUpload.innerHTML = `<div class="alert alert-success">Proyecto "${proyecto.titulo}" subido correctamente ✅</div>`;
-        cargarProyectos();
-        uploadForm.reset();
-      } catch (err) {
-        console.error(err);
-        mensajeUpload.innerHTML = `<div class="alert alert-danger">Error subiendo el proyecto ❌</div>`;
+      
+      setCanvasSize();
+      window.addEventListener('resize', setCanvasSize);
+      
+      // Particles for background
+      const particles = [];
+      const particleCount = 100;
+      
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 3 + 1;
+          this.speedX = Math.random() * 1 - 0.5;
+          this.speedY = Math.random() * 1 - 0.5;
+          this.color = `rgba(52, 152, 219, ${Math.random() * 0.5})`;
+        }
+        
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          
+          if (this.x > canvas.width || this.x < 0) {
+            this.speedX = -this.speedX;
+          }
+          if (this.y > canvas.height || this.y < 0) {
+            this.speedY = -this.speedY;
+          }
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
+      
+      // Create particles
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+      
+      // Animation loop
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+          
+          // Connect particles
+          for (let j = i; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 100) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(52, 152, 219, ${0.1 * (1 - distance/100)})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+        
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+      
+      // Cargar proyectos al iniciar
+      loadProjects();
+      
+      // Configurar el botón de guardar edición
+      document.getElementById('save-edit-btn').addEventListener('click', saveEdit);
     });
-
-    // 🔹 Eliminar proyecto
-    async function eliminarProyecto(id) {
-      if (!confirm("¿Seguro que deseas eliminar este proyecto?")) return;
-
-      await fetch(`http://localhost:3000/proyectos/${id}`, {
-        method: "DELETE"
-      });
-
-      cargarProyectos();
+    
+    // Función para obtener el icono según la categoría
+    function getCategoryIcon(category) {
+      const icons = {
+        'proyecto': 'bi-lightning-charge',
+        'tareas': 'bi-check2-square',
+        'web': 'bi-globe',
+        'app': 'bi-phone',
+        'design': 'bi-palette',
+        'documento': 'bi-file-earmark-text',
+        'default': 'bi-folder'
+      };
+      
+      return icons[category] || icons['default'];
     }
-
-    // 🚀 Cargar proyectos al iniciar
-    cargarProyectos();
+    
+    // Función para cargar proyectos
+    function loadProjects() {
+      const projects = JSON.parse(localStorage.getItem('projects')) || [];
+      const projectsGrid = document.getElementById('projects-grid');
+      
+      if (projects.length === 0) {
+        projectsGrid.innerHTML = `
+          <div class="col-12">
+            <div class="no-projects">
+              <i class="bi bi-folder-x" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+              <h3>No hay proyectos aún</h3>
+              <p>Visita el panel de administración para agregar proyectos.</p>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      
+      projectsGrid.innerHTML = '';
+      
+      projects.forEach(project => {
+        const col = document.createElement('div');
+        col.className = 'col-md-6 col-lg-4';
+        
+        // Determinar si es un archivo PDF
+        const isPDF = project.archivo && project.archivo.toLowerCase().endsWith('.pdf');
+        // Obtener icono según categoría
+        const categoryIcon = getCategoryIcon(project.categoria);
+        
+        col.innerHTML = `
+          <div class="project-card">
+            <div class="project-icon">
+              <i class="bi ${isPDF ? 'bi-file-earmark-pdf-fill' : categoryIcon}"></i>
+              <span>${project.categoria.toUpperCase()}</span>
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">${project.titulo}</h3>
+              <span class="project-category">${project.categoria}</span>
+              <p class="project-description">${project.descripcion}</p>
+              
+              ${project.tags && project.tags.length > 0 ? `
+                <div class="project-tags">
+                  ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
+                </div>
+              ` : ''}
+              
+              <div class="project-actions">
+                ${project.archivo ? `
+                  <a href="${project.archivo}" target="_blank" class="btn-action btn-view">
+                    <i class="bi bi-eye"></i>
+                  </a>
+                  <a href="${project.archivo}" download class="btn-action btn-download">
+                    <i class="bi bi-download"></i>
+                  </a>
+                ` : `
+                  <button class="btn-action btn-view" disabled>
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button class="btn-action btn-download" disabled>
+                    <i class="bi bi-download"></i>
+                  </button>
+                `}
+                <button class="btn-action btn-edit" data-id="${project.id}">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn-action btn-delete" data-id="${project.id}">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        projectsGrid.appendChild(col);
+      });
+      
+      // Agregar event listeners a los botones de editar y eliminar
+      document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const projectId = this.getAttribute('data-id');
+          openEditModal(projectId);
+        });
+      });
+      
+      document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const projectId = this.getAttribute('data-id');
+          deleteProject(projectId);
+        });
+      });
+    }
+    
+    // Función para abrir el modal de edición
+    function openEditModal(projectId) {
+      const projects = JSON.parse(localStorage.getItem('projects')) || [];
+      const project = projects.find(p => p.id === projectId);
+      
+      if (project) {
+        document.getElementById('edit-id').value = project.id;
+        document.getElementById('edit-title').value = project.titulo;
+        document.getElementById('edit-category').value = project.categoria;
+        document.getElementById('edit-description').value = project.descripcion;
+        document.getElementById('edit-file').value = project.archivo || '';
+        
+        // Convertir fecha al formato YYYY-MM-DD
+        if (project.fecha) {
+          const dateParts = project.fecha.split(' ');
+          const months = {
+            'ene': '01', 'feb': '02', 'mar': '03', 'abr': '04', 'may': '05', 'jun': '06',
+            'jul': '07', 'ago': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dic': '12'
+          };
+          if (dateParts.length >= 3) {
+            const formattedDate = `${dateParts[2]}-${months[dateParts[1]]}-${dateParts[0].padStart(2, '0')}`;
+            document.getElementById('edit-date').value = formattedDate;
+          }
+        }
+        
+        document.getElementById('edit-tags').value = project.tags ? project.tags.join(', ') : '';
+        
+        // Mostrar el modal
+        const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+        editModal.show();
+      }
+    }
+    
+    // Función para guardar los cambios de edición
+    function saveEdit() {
+      const projectId = document.getElementById('edit-id').value;
+      const title = document.getElementById('edit-title').value;
+      const category = document.getElementById('edit-category').value;
+      const description = document.getElementById('edit-description').value;
+      const fileUrl = document.getElementById('edit-file').value;
+      const date = document.getElementById('edit-date').value;
+      const tags = document.getElementById('edit-tags').value.split(',').map(tag => tag.trim());
+      
+      let projects = JSON.parse(localStorage.getItem('projects')) || [];
+      
+      // Formatear fecha para mostrar
+      const formattedDate = new Date(date).toLocaleDateString('es-ES', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+      });
+      
+      const index = projects.findIndex(p => p.id === projectId);
+      if (index !== -1) {
+        projects[index] = {
+          ...projects[index],
+          titulo: title,
+          descripcion: description,
+          archivo: fileUrl,
+          fecha: formattedDate,
+          tags: tags,
+          categoria: category
+        };
+        
+        localStorage.setItem('projects', JSON.stringify(projects));
+        
+        // Cerrar el modal y recargar los proyectos
+        const editModal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
+        editModal.hide();
+        
+        loadProjects();
+        
+        // Mostrar mensaje de éxito
+        alert('Proyecto actualizado correctamente');
+      }
+    }
+    
+    // Función para eliminar proyecto
+    function deleteProject(id) {
+      if (confirm('¿Estás seguro de que quieres eliminar este proyecto/tarea?')) {
+        let projects = JSON.parse(localStorage.getItem('projects')) || [];
+        projects = projects.filter(p => p.id !== id);
+        localStorage.setItem('projects', JSON.stringify(projects));
+        
+        loadProjects();
+        
+        // Mostrar mensaje de éxito
+        alert('Proyecto/tarea eliminado correctamente');
+      }
+    }
   </script>
-
 </body>
 </html>
