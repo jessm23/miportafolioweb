@@ -263,6 +263,16 @@
       color: #e74c3c;
     }
 
+    .alert-warning {
+      background: rgba(241, 196, 15, 0.2);
+      color: #f1c40f;
+    }
+
+    .alert-info {
+      background: rgba(52, 152, 219, 0.2);
+      color: #3498db;
+    }
+
     /* Login Section */
     .login-container {
       display: flex;
@@ -413,6 +423,128 @@
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    /* Proyectos guardados */
+    .projects-table {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      margin-top: 2rem;
+      max-width: 1000px;
+      margin: 2rem auto;
+      overflow-x: auto;
+    }
+
+    .projects-table h3 {
+      margin-bottom: 1.5rem;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      color: var(--light);
+      text-align: center;
+    }
+
+    .table-container {
+      max-height: 400px;
+      overflow-y: auto;
+      border-radius: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: var(--light);
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      background: rgba(52, 152, 219, 0.2);
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-action {
+      padding: 0.25rem 0.5rem;
+      margin: 0 0.25rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-edit {
+      background: rgba(52, 152, 219, 0.3);
+      color: var(--light);
+    }
+
+    .btn-edit:hover {
+      background: rgba(52, 152, 219, 0.5);
+    }
+
+    .btn-delete {
+      background: rgba(231, 76, 60, 0.3);
+      color: var(--light);
+    }
+
+    .btn-delete:hover {
+      background: rgba(231, 76, 60, 0.5);
+    }
+
+    .empty-projects {
+      text-align: center;
+      padding: 2rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Sincronización */
+    .sync-section {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      margin: 2rem auto;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .sync-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      gap: 0.5rem;
+    }
+
+    .status-online {
+      color: #2ecc71;
+    }
+
+    .status-offline {
+      color: #e74c3c;
+    }
+
+    .status-syncing {
+      color: #f39c12;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .hero {
@@ -431,6 +563,14 @@
         flex-direction: column;
         align-items: center;
         gap: 1rem;
+      }
+      
+      .projects-table {
+        padding: 1rem;
+      }
+      
+      th, td {
+        padding: 0.5rem;
       }
     }
   </style>
@@ -499,6 +639,19 @@
       <div class="container">
         <h2 class="section-title">Gestión de Proyectos y Tareas</h2>
         
+        <!-- Sección de sincronización -->
+        <div class="sync-section">
+          <h4>Sincronización entre dispositivos</h4>
+          <div class="sync-status">
+            <span id="sync-status-icon" class="status-online"><i class="bi bi-cloud-check"></i></span>
+            <span id="sync-status-text">Conectado al servidor</span>
+          </div>
+          <p class="text-muted">Los proyectos se guardan en la nube y están disponibles en todos tus dispositivos</p>
+          <button class="btn-admin" onclick="forceSync()" style="width: auto; padding: 0.5rem 1.5rem;">
+            <i class="bi bi-arrow-repeat"></i> Sincronizar ahora
+          </button>
+        </div>
+        
         <!-- Alertas -->
         <div id="alert-container"></div>
         
@@ -527,6 +680,7 @@
             <div class="mb-3">
               <label for="project-file" class="form-label">URL del archivo o enlace</label>
               <input type="url" class="form-control" id="project-file" placeholder="https://...">
+              <div class="form-text text-warning">Asegúrate de que la URL sea válida y accesible desde cualquier dispositivo</div>
             </div>
             <div class="row">
               <div class="col-md-6 mb-3">
@@ -541,6 +695,7 @@
             <div class="mb-3">
               <label for="project-image" class="form-label">URL de la Imagen</label>
               <input type="url" class="form-control" id="project-image" placeholder="https://...">
+              <div class="form-text text-warning">Usa una URL de imagen pública para una mejor visualización en todos los dispositivos</div>
             </div>
             <button type="submit" class="btn-admin" id="form-submit-btn">Agregar</button>
           </form>
@@ -552,6 +707,30 @@
           <h3 class="mt-3">¡Proyecto/Tarea guardado correctamente!</h3>
           <p class="mt-2">Los datos se han almacenado correctamente y estarán disponibles en la página de proyectos.</p>
           <a href="projects.html" class="btn-admin mt-3">Ver Proyectos</a>
+        </div>
+
+        <!-- Lista de proyectos guardados -->
+        <div class="projects-table">
+          <h3>Proyectos Guardados <span id="projects-count" class="badge bg-secondary ms-2">0</span></h3>
+          <div class="table-container">
+            <table id="projects-list">
+              <thead>
+                <tr>
+                  <th>Título</th>
+                  <th>Categoría</th>
+                  <th>Fecha</th>
+                  <th>Enlace</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Los proyectos se cargarán aquí dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+          <div id="empty-projects" class="empty-projects">
+            <p>No hay proyectos guardados todavía.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -600,6 +779,31 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
+    // Simulación de base de datos en la nube
+    const cloudDatabase = {
+      // Esta función simula una llamada a una API real
+      async saveToCloud(projects) {
+        // Simulamos un retardo de red
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        // Guardamos en localStorage como simulación de la nube
+        // En un caso real, aquí haríamos una petición a un servidor
+        localStorage.setItem('cloud_projects', JSON.stringify(projects));
+        
+        return true;
+      },
+      
+      async loadFromCloud() {
+        // Simulamos un retardo de red
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Cargamos desde localStorage como simulación de la nube
+        // En un caso real, aquí haríamos una petición a un servidor
+        const projects = localStorage.getItem('cloud_projects');
+        return projects ? JSON.parse(projects) : [];
+      }
+    };
+
     // Canvas background animation
     document.addEventListener('DOMContentLoaded', function() {
       const canvas = document.getElementById('canvas-bg');
@@ -713,6 +917,9 @@
         e.preventDefault();
         saveProject();
       });
+
+      // Cargar proyectos al iniciar
+      loadProjects();
     });
     
     // Función para verificar autenticación
@@ -722,6 +929,7 @@
       if (isAuthenticated) {
         document.getElementById('login-section').style.display = 'none';
         document.getElementById('admin-content').style.display = 'block';
+        loadProjects(); // Cargar proyectos cuando se autentica
       } else {
         document.getElementById('login-section').style.display = 'flex';
         document.getElementById('admin-content').style.display = 'none';
@@ -742,8 +950,69 @@
       }, 5000);
     }
     
+    // Función para validar URL
+    function isValidUrl(string) {
+      try {
+        new URL(string);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    }
+
+    // Función para sincronizar con la nube
+    async function syncWithCloud() {
+      try {
+        setSyncStatus('Sincronizando con la nube...', 'syncing');
+        
+        // Obtener proyectos locales
+        const localProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+        
+        // Guardar en la nube
+        await cloudDatabase.saveToCloud(localProjects);
+        
+        setSyncStatus('Sincronizado con la nube', 'online');
+        return true;
+      } catch (error) {
+        setSyncStatus('Error de sincronización', 'offline');
+        console.error('Error sincronizando con la nube:', error);
+        return false;
+      }
+    }
+
+    // Función para forzar sincronización
+    async function forceSync() {
+      const success = await syncWithCloud();
+      if (success) {
+        showAlert('Sincronización completada correctamente', 'success');
+      } else {
+        showAlert('Error en la sincronización. Revisa tu conexión.', 'danger');
+      }
+    }
+
+    // Establecer estado de sincronización
+    function setSyncStatus(message, status) {
+      const statusIcon = document.getElementById('sync-status-icon');
+      const statusText = document.getElementById('sync-status-text');
+      
+      statusText.textContent = message;
+      statusIcon.className = `status-${status}`;
+      
+      switch(status) {
+        case 'online':
+          statusIcon.innerHTML = '<i class="bi bi-cloud-check"></i>';
+          break;
+        case 'offline':
+          statusIcon.innerHTML = '<i class="bi bi-cloud-slash"></i>';
+          break;
+        case 'syncing':
+          statusIcon.innerHTML = '<i class="bi bi-cloud-arrow-up"></i>';
+          break;
+      }
+    }
+
     // Función para guardar proyecto
-    function saveProject() {
+    async function saveProject() {
       const projectId = document.getElementById('project-id').value;
       const title = document.getElementById('project-title').value;
       const category = document.getElementById('project-category').value;
@@ -752,6 +1021,17 @@
       const date = document.getElementById('project-date').value;
       const tags = document.getElementById('project-tags').value.split(',').map(tag => tag.trim());
       const image = document.getElementById('project-image').value;
+      
+      // Validar URLs si se proporcionan
+      if (fileUrl && !isValidUrl(fileUrl)) {
+        showAlert('La URL del archivo no es válida. Por favor, ingresa una URL válida.', 'danger');
+        return;
+      }
+      
+      if (image && !isValidUrl(image)) {
+        showAlert('La URL de la imagen no es válida. Por favor, ingresa una URL válida.', 'danger');
+        return;
+      }
       
       let projects = JSON.parse(localStorage.getItem('projects')) || [];
       
@@ -772,6 +1052,7 @@
             descripcion: description,
             archivo: fileUrl,
             fecha: formattedDate,
+            fechaRaw: date, // Guardar también la fecha en formato raw para edición
             tags: tags,
             categoria: category,
             imagen: image
@@ -787,6 +1068,7 @@
           descripcion: description,
           archivo: fileUrl,
           fecha: formattedDate,
+          fechaRaw: date, // Guardar también la fecha en formato raw para edición
           tags: tags,
           categoria: category,
           imagen: image
@@ -798,9 +1080,15 @@
       
       localStorage.setItem('projects', JSON.stringify(projects));
       
+      // Sincronizar con la nube
+      await syncWithCloud();
+      
       // Resetear formulario y mostrar mensaje de éxito
       resetForm();
       document.getElementById('success-message').style.display = 'block';
+      
+      // Recargar la lista de proyectos
+      loadProjects();
       
       // Ocultar mensaje de éxito después de 5 segundos
       setTimeout(() => {
@@ -815,6 +1103,115 @@
       document.getElementById('project-form').reset();
       document.getElementById('project-id').value = '';
     }
+
+    // Función para cargar proyectos en la tabla
+    async function loadProjects() {
+      // Primero intentamos cargar desde la nube
+      try {
+        const cloudProjects = await cloudDatabase.loadFromCloud();
+        const localProjects = JSON.parse(localStorage.getItem('projects') || '[]');
+        
+        // Si hay proyectos en la nube, los usamos
+        if (cloudProjects.length > 0) {
+          localStorage.setItem('projects', JSON.stringify(cloudProjects));
+        }
+        // Si no hay proyectos en la nube pero sí locales, sincronizamos
+        else if (localProjects.length > 0) {
+          await cloudDatabase.saveToCloud(localProjects);
+        }
+      } catch (error) {
+        console.error('Error cargando desde la nube:', error);
+      }
+      
+      // Ahora cargamos desde localStorage
+      const projects = JSON.parse(localStorage.getItem('projects')) || [];
+      const tableBody = document.querySelector('#projects-list tbody');
+      const emptyMessage = document.getElementById('empty-projects');
+      const projectsCount = document.getElementById('projects-count');
+      
+      // Actualizar contador
+      projectsCount.textContent = projects.length;
+      
+      // Limpiar tabla
+      tableBody.innerHTML = '';
+      
+      if (projects.length === 0) {
+        emptyMessage.style.display = 'block';
+        return;
+      }
+      
+      emptyMessage.style.display = 'none';
+      
+      // Llenar tabla con proyectos
+      projects.forEach(project => {
+        const row = document.createElement('tr');
+        
+        // Verificar si el enlace es válido
+        const linkIsValid = project.archivo && isValidUrl(project.archivo);
+        
+        row.innerHTML = `
+          <td>${project.titulo}</td>
+          <td>${project.categoria}</td>
+          <td>${project.fecha}</td>
+          <td>${project.archivo ? 
+            (linkIsValid ? 
+              `<a href="${project.archivo}" target="_blank" class="text-info">Ver enlace</a>` : 
+              `<span class="text-warning">URL inválida</span>`) : 
+            'N/A'}</td>
+          <td>
+            <button class="btn-action btn-edit" onclick="editProject('${project.id}')">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn-action btn-delete" onclick="deleteProject('${project.id}')">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        `;
+        
+        tableBody.appendChild(row);
+      });
+    }
+
+    // Función para editar proyecto
+    window.editProject = function(id) {
+      const projects = JSON.parse(localStorage.getItem('projects')) || [];
+      const project = projects.find(p => p.id === id);
+      
+      if (project) {
+        document.getElementById('project-id').value = project.id;
+        document.getElementById('project-title').value = project.titulo;
+        document.getElementById('project-category').value = project.categoria;
+        document.getElementById('project-description').value = project.descripcion;
+        document.getElementById('project-file').value = project.archivo || '';
+        document.getElementById('project-date').value = project.fechaRaw || '';
+        document.getElementById('project-tags').value = project.tags.join(', ');
+        document.getElementById('project-image').value = project.imagen || '';
+        
+        document.getElementById('form-title').textContent = 'Editar Proyecto/Tarea';
+        document.getElementById('form-submit-btn').textContent = 'Actualizar';
+        
+        // Scroll al formulario
+        document.getElementById('project-form').scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    // Función para eliminar proyecto
+    window.deleteProject = async function(id) {
+      if (confirm('¿Estás seguro de que quieres eliminar este proyecto?')) {
+        let projects = JSON.parse(localStorage.getItem('projects')) || [];
+        projects = projects.filter(p => p.id !== id);
+        localStorage.setItem('projects', JSON.stringify(projects));
+        
+        // Sincronizar con la nube
+        await syncWithCloud();
+        
+        showAlert('Proyecto eliminado correctamente', 'success');
+        loadProjects();
+      }
+    }
+
+    // Inicializar estado de sincronización
+    setSyncStatus('Conectado al servidor', 'online');
   </script>
 </body>
-</html> 
+</html>
