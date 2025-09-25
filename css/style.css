@@ -1,0 +1,78 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f8f9fa;
+  color: #333;
+}
+
+.container {
+  padding: 2rem;
+  text-align: center;
+}
+
+.header {
+  background: #007bff;
+  padding: 1rem;
+}
+
+.header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.header nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.footer {
+  background: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+
+/* Animación de máquina de escribir */
+.typing-text {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #007bff;
+  border-right: 3px solid #007bff;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  margin: 0 auto;
+  animation: typing 4s steps(30, end) forwards, blink 0.7s infinite;
+}
+
+/* Efecto máquina de escribir */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* Cursor parpadeante */
+@keyframes blink {
+  50% { border-color: transparent }
+}
+.card {
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+  cursor: pointer;
+  background: #fff;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  background: #e6f0ff; /* azul muy suave */
+}

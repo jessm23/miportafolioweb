@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto - Adherly Dev</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #34495e;
+      --accent: #3498db;
+      --accent-light: #5dade2;
+      --light: #ecf0f1;
+      --dark: #2c3e50;
+      --text-dark: #2c3e50;
+      --text-light: #7f8c8d;
+      --gradient-primary: linear-gradient(135deg, #3498db, #2c3e50);
+      --gradient-secondary: linear-gradient(135deg, #5dade2, #3498db);
+      --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--light);
+      overflow-x: hidden;
+      background: linear-gradient(-45deg, #1a2a3a, #2c3e50, #1a2a3a, #2c3e50);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      min-height: 100vh;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Canvas animation background */
+    #canvas-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    /* NAVBAR PROFESIONAL */
+    .navbar {
+      background: rgba(44, 62, 80, 0.95) !important;
+      backdrop-filter: blur(10px);
+      padding: 0.8rem 0;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s ease;
+    }
+
+    .navbar-brand {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--light) !important;
+    }
+
+    .navbar-brand i {
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-right: 0.5rem;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      margin: 0 0.5rem;
+      position: relative;
+      color: var(--light) !important;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      width: 100%;
+    }
+
+    /* HERO SECTION MEJORADA */
+    .hero {
+      position: relative;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 40vh;
+      padding-top: 80px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%233498db" fill-opacity="0.1" d="M0,128L48,117.3C96,107,192,85,288,112C384,139,480,213,576,218.7C672,224,768,160,864,138.7C960,117,1056,139,1152,149.3C1248,160,1344,160,1392,160L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom/100% 15%;
+      z-index: -1;
+    }
+
+    .typing-text {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      margin: 0 0 1.5rem;
+      position: relative;
+      display: inline-block;
+      opacity: 0;
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* CONTENEDOR DE CONTACTO */
+    .contact-container {
+      padding: 3rem 0;
+      background: rgba(44, 62, 80, 0.7);
+      backdrop-filter: blur(10px);
+      min-height: 60vh;
+    }
+
+    .section-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient-primary);
+      border-radius: 2px;
+    }
+
+    /* Tarjetas de contacto */
+    .contact-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+      text-align: center;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .contact-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .contact-title {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      color: var(--light);
+      margin-bottom: 1rem;
+    }
+
+    .contact-info {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .contact-link {
+      color: var(--accent-light);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .contact-link:hover {
+      color: var(--accent);
+    }
+
+    /* Formulario de contacto */
+    .contact-form {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-label {
+      color: var(--light);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--light);
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+      color: var(--light);
+    }
+
+    .form-control::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .btn-contact {
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .btn-contact:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Mapa */
+    .map-container {
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      height: 300px;
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Alertas */
+    .alert {
+      border-radius: 10px;
+      border: none;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeInUp 0.5s ease forwards;
+    }
+
+    .alert-success {
+      background: rgba(46, 204, 113, 0.2);
+      color: #2ecc71;
+    }
+
+    .alert-danger {
+      background: rgba(231, 76, 60, 0.2);
+      color: #e74c3c;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        min-height: 30vh;
+      }
+      
+      .typing-text {
+        font-size: 2rem;
+      }
+      
+      .contact-form {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Canvas Background Animation -->
+  <canvas id="canvas-bg"></canvas>
+
+  <!-- HEADER -->
+  <header class="navbar navbar-expand-lg navbar-dark bg-dark shadow fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <i class="bi bi-code-slash"></i> Adherly Dev
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="projects.html">Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" href="admin.html">Admin</a></li>
+          <li class="nav-item"><a class="nav-link active" href="contactos.html">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="typing-text display-4 fw-bold">
+        Ponte en <span>Contacto</span>
+      </h1>
+      <p class="hero-lead">
+        Estamos aquí para ayudarte con tus proyectos y ideas.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTENEDOR DE CONTACTO -->
+  <section class="contact-container">
+    <div class="container">
+      <h2 class="section-title">¿Cómo puedo ayudarte?</h2>
+      
+      <!-- Alertas -->
+      <div id="alert-container"></div>
+      
+      <div class="row g-4 mb-5">
+        <!-- Información de contacto -->
+        <div class="col-md-4">
+          <div class="contact-card">
+            <i class="bi bi-geo-alt-fill contact-icon"></i>
+            <h3 class="contact-title">Ubicación</h3>
+            <p class="contact-info">Av. Principal #123<br>Ciudad, País</p>
+            <a href="#" class="contact-link">Ver en mapa</a>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="contact-card">
+            <i class="bi bi-envelope-fill contact-icon"></i>
+            <h3 class="contact-title">Email</h3>
+            <p class="contact-info">info@adherlydev.com<br>soporte@adherlydev.com</p>
+            <a href="mailto:info@adherlydev.com" class="contact-link">Enviar email</a>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="contact-card">
+            <i class="bi bi-telephone-fill contact-icon"></i>
+            <h3 class="contact-title">Teléfono</h3>
+            <p class="contact-info">+1 (555) 123-4567<br>+1 (555) 987-6543</p>
+            <a href="tel:+15551234567" class="contact-link">Llamar ahora</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row g-4">
+        <!-- Formulario de contacto -->
+        <div class="col-lg-8">
+          <div class="contact-form">
+            <h3 class="contact-title mb-4">Envíanos un mensaje</h3>
+            <form id="contact-form">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="contact-name" class="form-label">Nombre completo</label>
+                  <input type="text" class="form-control" id="contact-name" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="contact-email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="contact-email" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="contact-subject" class="form-label">Asunto</label>
+                <input type="text" class="form-control" id="contact-subject" required>
+              </div>
+              <div class="mb-3">
+                <label for="contact-message" class="form-label">Mensaje</label>
+                <textarea class="form-control" id="contact-message" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="btn-contact">Enviar mensaje</button>
+            </form>
+          </div>
+        </div>
+        
+        <!-- Mapa -->
+        <div class="col-lg-4">
+          <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322283!2d106.8195613506395!3d-6.194741395493371!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e67356080477!2sMonumen%20Nasional!5e0!3m2!1sen!2sid!4v1605481389094!5m2!1sen!2sid" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+          </div>
+          
+          <div class="mt-4 text-center">
+            <h4 class="contact-title">Síguenos en redes</h4>
+            <div class="d-flex justify-content-center gap-3 mt-3">
+              <a href="#" class="contact-link fs-4"><i class="bi bi-facebook"></i></a>
+              <a href="#" class="contact-link fs-4"><i class="bi bi-twitter"></i></a>
+              <a href="#" class="contact-link fs-4"><i class="bi bi-instagram"></i></a>
+              <a href="#" class="contact-link fs-4"><i class="bi bi-linkedin"></i></a>
+              <a href="#" class="contact-link fs-4"><i class="bi bi-github"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="text-center">
+    <div class="container">
+      <p class="mb-2">© 2025 Adherly Dev | Todos los derechos reservados</p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="#" class="text-light"><i class="bi bi-github fs-4"></i></a>
+        <a href="#" class="text-light"><i class="bi bi-linkedin fs-4"></i></a>
+        <a href="#" class="text-light"><i class="bi bi-envelope-fill fs-4"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Canvas background animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const canvas = document.getElementById('canvas-bg');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas size
+      function setCanvasSize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      
+      setCanvasSize();
+      window.addEventListener('resize', setCanvasSize);
+      
+      // Particles for background
+      const particles = [];
+      const particleCount = 100;
+      
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 3 + 1;
+          this.speedX = Math.random() * 1 - 0.5;
+          this.speedY = Math.random() * 1 - 0.5;
+          this.color = `rgba(52, 152, 219, ${Math.random() * 0.5})`;
+        }
+        
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          
+          if (this.x > canvas.width || this.x < 0) {
+            this.speedX = -this.speedX;
+          }
+          if (this.y > canvas.height || this.y < 0) {
+            this.speedY = -this.speedY;
+          }
+        }
+        
+        draw() {
+          ctx.fillStyle = this.color;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      
+      // Create particles
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+      
+      // Animation loop
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+          
+          // Connect particles
+          for (let j = i; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance < 100) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(52, 152, 219, ${0.1 * (1 - distance/100)})`;
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+        
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+      
+      // Configurar el formulario de contacto
+      document.getElementById('contact-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Aquí normalmente enviarías el formulario a un servidor
+        // Por ahora, solo mostraremos un mensaje de éxito
+        showAlert('¡Mensaje enviado correctamente! Te contactaremos pronto.', 'success');
+        
+        // Limpiar el formulario
+        this.reset();
+      });
+    });
+    
+    // Función para mostrar alertas
+    function showAlert(message, type) {
+      const alertContainer = document.getElementById('alert-container');
+      const alert = document.createElement('div');
+      alert.className = `alert alert-${type}`;
+      alert.textContent = message;
+      alertContainer.appendChild(alert);
+      
+      // Eliminar la alerta después de 5 segundos
+      setTimeout(() => {
+        alert.remove();
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
