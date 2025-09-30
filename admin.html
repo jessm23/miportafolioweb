@@ -547,16 +547,6 @@
       .card {
         padding: 1.5rem;
       }
-
-      .admin-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .admin-actions {
-        margin-top: 1rem;
-        width: 100%;
-      }
     }
 
     /* Elementos específicos del admin */
@@ -657,12 +647,6 @@
       background: var(--light-color);
       padding: 0.5rem 1rem;
       border-radius: 50px;
-    }
-
-    .admin-actions {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
     }
 
     /* Animaciones adicionales */
@@ -802,11 +786,9 @@
       <div id="formulario">
         <div class="admin-header">
           <h1><i class="fas fa-cogs"></i> Panel de Administración</h1>
-          <div class="admin-actions">
-            <div class="user-info">
-              <i class="fas fa-user-circle"></i>
-              <span id="username-display">Administrador</span>
-            </div>
+          <div class="user-info">
+            <i class="fas fa-user-circle"></i>
+            <span id="username-display">Administrador</span>
           </div>
         </div>
 
@@ -888,7 +870,7 @@
     /* Configuración del gist */
     const GIST_ID = "3690e860889f4588b37fb2406aee2c25";
     const FILENAME = "actividades.json";
-    const GITHUB_TOKEN = "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";
+    const GITHUB_TOKEN = "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";
 
     /* Elementos del DOM */
     const loginSection = document.getElementById('login');
